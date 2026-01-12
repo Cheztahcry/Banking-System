@@ -4,6 +4,8 @@
 #include <vector>
 #include <string>
 #include <iostream>
+#include <sstream>
+
 
 using namespace std;
 
@@ -165,7 +167,6 @@ void transfer() {
             balance -= withdrawAmount;
             cout << "Transfer successful to " << rec_email << "\n";
 
-            // Adding to history using the same method
             ostringstream stream;
             stream << fixed << setprecision(2) << withdrawAmount;
             history.push_back("Transferred: " + stream.str() + " to " + rec_email);
@@ -227,12 +228,8 @@ int main() {
         cout << "3. Exit\n";
         cout << "Enter your choice: ";
         cin >> user_status;
-        // Check if the input failed (e.g., user entered text)
         if (std::cin.fail()) {
-            // 1. Clear the error flag so cin can work again
             std::cin.clear();
-
-            // 2. Ignore the rest of the wrong input in the buffer
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             user_status = reset;
         }
@@ -249,7 +246,7 @@ int main() {
                     cin >> email;
                     cout << "Enter your password: ";
                     cin >> password;
-                } while (email != acc_email && password != acc_password);
+                } while (email != acc_email && password != acc_password || email != acc_email || password != acc_password );
                 do {
                     if (email == acc_email && password == acc_password) {
                     cout << "1. Deposit Money" << endl;
@@ -265,10 +262,7 @@ int main() {
                     cout << "Enter your choice: ";
                     cin >> func_choice;
                     if (std::cin.fail()) {
-                        // 1. Clear the error flag so cin can work again
                         std::cin.clear();
-
-                        // 2. Ignore the rest of the wrong input in the buffer
                         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                         func_choice = reset;
                     }
@@ -279,47 +273,34 @@ int main() {
                         case 2:
                             withdraw();
                             break;
-
-
                         case 3:
                             checkBalance(balance);
                             break;
-
-
                         case 4:
                             checkInterest();
                             break;
-
                         case 5:
                             resetInfo();
                             break;
-
                         case 6:
                             deleteAccount();
                             break;
                         case 7:
                             showTransactionHistory();
                             break;
-
                         case 8:
                             transfer();
                             break;
-
                         case 9:
-                            cout << "First Name: " + fname + "\n"
-                                        << endl;
-                            cout << "Last Name: " + lname + "\n"
-                                        << endl;
+                            cout << "First Name: " + fname + "\n" << endl;
+                            cout << "Last Name: " + lname + "\n" << endl;
                             break;
                         case 10:
                             user_status = reset;
                             break;
-
                     }
-
                 }
                 } while (func_choice != 10);
-
         }
     }
     while (user_status >= max_choice_amt);
